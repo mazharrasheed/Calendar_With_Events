@@ -7,8 +7,10 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
+
+    {% load times %}
     <div id="calendar"></div>
-{% load times %}
+
     <!-- Modal for adding and editing events -->
     <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -74,9 +76,11 @@
                     document.getElementById('eventForm').reset();
                     document.getElementById('eventId').value = '';
                     document.getElementById('eventDate').value = info.dateStr;
+                    document.getElementById('saveEventButton').innerHTML='Save';
                 },
                 eventClick: function(info) {
                     $('#eventModal').modal('show');
+                    document.getElementById('saveEventButton').innerHTML= eventId ? `Update` : 'Save';
                     document.getElementById('eventId').value = info.event.id;
                     document.getElementById('eventTitle').value = info.event.title;
                     document.getElementById('eventDate').value = info.event.start.toISOString().slice(0, 10);
