@@ -106,12 +106,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/karachi'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 # Enable timezone-aware datetimes
-USE_TZ = True
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

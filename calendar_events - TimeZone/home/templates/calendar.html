@@ -79,13 +79,25 @@
                     document.getElementById('saveEventButton').innerHTML='Save';
                 },
                 eventClick: function(info) {
+
                     $('#eventModal').modal('show');
-                    document.getElementById('saveEventButton').innerHTML= eventId ? `Update` : 'Save';
+                    document.getElementById('saveEventButton').innerHTML = 'Update';
                     document.getElementById('eventId').value = info.event.id;
+                    
+                    // Convert event start and end times to local time (Asia/Karachi)
+                    const eventStart = new Date(info.event.start);
+                    const eventEnd = new Date(info.event.end);
+
+                    const offset = eventStart.getTimezoneOffset() * 60000;
+                    const localStart = new Date(eventStart.getTime() - offset);
+                    const localStarttime = new Date(eventStart.getTime() );
+                    const localEnd = new Date(eventEnd.getTime());
+
+                    document.getElementById('eventDate').value = localStart.toISOString().slice(0, 10);
+                    document.getElementById('eventStartTime').value = localStarttime.toTimeString().slice(0, 5);
+                    document.getElementById('eventEndTime').value = localEnd.toTimeString().slice(0, 5);
                     document.getElementById('eventTitle').value = info.event.title;
-                    document.getElementById('eventDate').value = info.event.start.toISOString().slice(0, 10);
-                    document.getElementById('eventStartTime').value = new Date(info.event.start).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-                    document.getElementById('eventEndTime').value = new Date(info.event.end).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                   
                 }
             });
             calendar.render();
@@ -96,6 +108,9 @@
                 var eventId = document.getElementById('eventId').value;
                 var url = eventId ? `/update_event/${eventId}/` : '/add_event/';
                 var method = eventId ? 'PUT' : 'POST';
+
+
+                
 
                 var eventData = {
                     title: document.getElementById('eventTitle').value,
